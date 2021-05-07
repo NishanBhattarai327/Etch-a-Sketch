@@ -1,15 +1,29 @@
 const createGrid = (size, box) => {
+    //updating grid layout
+    box.style.setProperty("--grid-rows", size);
+    box.style.setProperty("--grid-cols", size);
+
+    //creating grids
     for (let i = 0; i < size * size; i++) {
+        //size of a cell
         let gridSize = (500 / size).toString() + "px";
-        const grid = document.createElement("div");
-        grid.setAttribute("class", "grid");
-        grid.style.width = gridSize;
-        grid.style.height = gridSize;
-        grid.addEventListener("mouseover", () => {
-            grid.style.background = "red";
+
+        //cell
+        const gridCell = document.createElement("div");
+        gridCell.setAttribute("class", "gridCell");
+        gridCell.style.width = gridSize;
+        gridCell.style.height = gridSize;
+
+        //adding hover effect
+        gridCell.addEventListener("mouseover", () => {
+            gridCell.style.background = "red";
         });
-        box.appendChild(grid);
+
+        //add grid cell to container
+        box.appendChild(gridCell);
     }
 }
+
 const container = document.querySelector("#container");
-createGrid(5, container);
+createGrid(25, container);
+
