@@ -1,3 +1,9 @@
+/*
+ *grid layout was created with the help of  
+ * https://stackoverflow.com/questions/57550082/creating-a-16x16-grid-using-javascript
+ * this link
+ */
+
 const createGrid = (size, box) => {
     //updating grid layout
     box.style.setProperty("--grid-rows", size);
@@ -24,6 +30,23 @@ const createGrid = (size, box) => {
     }
 }
 
+const removeGrid = (box) => {
+    while(box.firstChild) {
+        box.removeChild(box.lastChild);
+    }
+}
+
 const container = document.querySelector("#container");
 createGrid(25, container);
+
+//adding button to change size of grids
+const button = document.querySelector("#button");
+button.addEventListener("click", () => {
+    //prompt for size
+    let newSize = parseInt(window.prompt("Enter new size", ""));
+    if (newSize > 0 && newSize < 100) {
+        removeGrid(container);
+        createGrid(newSize, container);
+    }
+});
 
