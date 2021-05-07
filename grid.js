@@ -3,8 +3,11 @@
  * https://stackoverflow.com/questions/57550082/creating-a-16x16-grid-using-javascript
  * this link
  */
+  //////////////////////////////////////////////////////////
+ //////gird.js/////////////////////////////////////////////
+//////////////////////////////////////////////////////////
 
-const createGrid = (size, box) => {
+const createGrid = (box, size) => {
     //updating grid layout
     box.style.setProperty("--grid-rows", size);
     box.style.setProperty("--grid-cols", size);
@@ -22,19 +25,15 @@ const createGrid = (size, box) => {
 
         //adding hover effect
         gridCell.addEventListener("mouseover", () => {
-            let perviousBgColor = gridCell.style.backgroundColor;
+            let currentBgColor = gridCell.style.backgroundColor;
             
             //only random color for first hover
-            if (perviousBgColor == "") {
+            if (currentBgColor == "") {
                 gridCell.style.backgroundColor = generateRandomColour();
+                //change the css initial color var to random color generated
+                gridCell.style.setProperty("--initial-cell-color", gridCell.style.backgroundColor);
             } else {
-                let rgb = perviousBgColor.substring(perviousBgColor.indexOf('(') +1, perviousBgColor.length -1).split(', ');
-                let color = rgb.map((value) => {
-                    return Math.floor(parseInt(value) - parseInt(value) * 0.1);
-                }).join();
-                let reducedRgb = "rgb("+color+")";
-                console.log(perviousBgColor, reducedRgb);
-                gridCell.style.backgroundColor = reducedRgb;
+                reduceBrightnessOf(gridCell, currentBgColor, 10);
             }
         });
 
@@ -43,18 +42,50 @@ const createGrid = (size, box) => {
     }
 }
 
-const removeGrid = (box) => {
+function reduceBrightnessOf(gridCell, currentColor, percentage) {
+    /**
+     * get initially generated random color stored as css variable
+     * convert the rgb string into array
+     * get current color and convert rgb into array
+     * subtract 10% of intial to current rgb value
+     * set the background to subtracted rgb value
+     */
+    let initialRgb = rgbToArray(gridCell.style.getPropertyValue("--initial-cell-color"));
+    let currentRgb = rgbToArray(currentColor).map((value, index) => {
+        if (value > 0) {
+            return Math.floor(value - initialRgb[index] * percentage / 100);
+        }
+        return value;
+    }).join();
+    gridCell.style.backgroundColor = "rgb("+currentRgb+")";
+}
+
+//helper functions............
+
+function generateRandomColour(){
+    return "rgb("+Math.floor(Math.random()*255)+", "+Math.floor(Math.random()*255)+", "+Math.floor(Math.random()*255)+")";
+}
+
+function rgbToArray(rgb) {
+    let rgbArr = rgb.substring(rgb.indexOf('(') + 1, rgb.length - 1).split(", ");
+    return rgbArr.map((value) => parseInt(value));
+}
+
+function removeGrid(box){
     while(box.firstChild) {
         box.removeChild(box.lastChild);
     }
 }
- 
-function generateRandomColour(){
-    return "#" + Math.floor(Math.random() * Math.pow(16, 6)).toString(16);
-}
+
+ ///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+
+  ///////////////////////////////////////////////////
+ /////////// Main.js ///////////////////////////////
+///////////////////////////////////////////////////
 
 const container = document.querySelector("#container");
-createGrid(25, container);
+createGrid(container, 25);
 
 //adding button to change size of grids
 const button = document.querySelector("#button");
@@ -63,7 +94,7 @@ button.addEventListener("click", () => {
     let newSize = parseInt(window.prompt("Enter new size", ""));
     if (newSize > 0 && newSize < 100) {
         removeGrid(container);
-        createGrid(newSize, container);
+        createGrid(container, newSize);
     }
 });
 
