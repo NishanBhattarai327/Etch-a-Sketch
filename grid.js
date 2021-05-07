@@ -22,7 +22,7 @@ const createGrid = (size, box) => {
 
         //adding hover effect
         gridCell.addEventListener("mouseover", () => {
-            gridCell.style.background = "red";
+            gridCell.style.background = generateRandomColour();
         });
 
         //add grid cell to container
@@ -34,6 +34,10 @@ const removeGrid = (box) => {
     while(box.firstChild) {
         box.removeChild(box.lastChild);
     }
+}
+ 
+function generateRandomColour(){
+    return "#" + Math.floor(Math.random() * Math.pow(16, 6)).toString(16);
 }
 
 const container = document.querySelector("#container");
