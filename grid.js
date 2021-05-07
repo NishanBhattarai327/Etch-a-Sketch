@@ -22,7 +22,11 @@ const createGrid = (size, box) => {
 
         //adding hover effect
         gridCell.addEventListener("mouseover", () => {
-            gridCell.style.background = generateRandomColour();
+            let perviousBgColor = gridCell.style.backgroundColor;
+            console.log(perviousBgColor);
+            if (perviousBgColor == "") {
+                gridCell.style.background = generateRandomColour();
+            }
         });
 
         //add grid cell to container
