@@ -23,9 +23,18 @@ const createGrid = (size, box) => {
         //adding hover effect
         gridCell.addEventListener("mouseover", () => {
             let perviousBgColor = gridCell.style.backgroundColor;
-            console.log(perviousBgColor);
+            
+            //only random color for first hover
             if (perviousBgColor == "") {
-                gridCell.style.background = generateRandomColour();
+                gridCell.style.backgroundColor = generateRandomColour();
+            } else {
+                let rgb = perviousBgColor.substring(perviousBgColor.indexOf('(') +1, perviousBgColor.length -1).split(', ');
+                let color = rgb.map((value) => {
+                    return Math.floor(parseInt(value) - parseInt(value) * 0.1);
+                }).join();
+                let reducedRgb = "rgb("+color+")";
+                console.log(perviousBgColor, reducedRgb);
+                gridCell.style.backgroundColor = reducedRgb;
             }
         });
 
