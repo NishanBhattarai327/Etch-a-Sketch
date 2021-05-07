@@ -1,0 +1,19 @@
+:root {
+	--size: 50px;
+}
+#container {
+	width: 500px;
+	height: 500px;
+	border: 1px solid black;
+}
+.grid {
+	width: var(--size, 10px);
+	height: var(--size, 10px);
+	margin: 1px;
+	box-sizing: border-box;
+	background-color: aqua;
+	display: inline-block;
+}
+.grid:hover {
+	cursor: pointer;
+}
