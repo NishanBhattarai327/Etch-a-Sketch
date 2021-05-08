@@ -14,10 +14,40 @@
 	width: 500px;
 	height: 500px;
 	border: 2px solid black;
+	margin: auto;
 }
 
 .gridCell {
 	border: 1px solid black;
 	box-sizing: border-box;
 	background-color: rgb(255, 255, 255);
+}
+
+.center {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.gap {
+	height: 10px;
+}
+
+.button {
+	background-color: white;
+	color: black;
+	border: 2px solid #555555;
+	padding: 10px 18px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 4px 2px;
+	transition-duration: 0.4s;
+	cursor: pointer;
+  }
+.button:hover {
+	background-color: #555555;
+	color: white;
 }
